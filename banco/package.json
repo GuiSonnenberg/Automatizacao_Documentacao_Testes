@@ -1,0 +1,15 @@
+{
+  "name": "sistema-bancario-tdd",
+  "version": "1.0.0",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "start-server-and-test start http://localhost:8080 cy:run",
+    "start": "http-server . -p 8080"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0",
+    "http-server": "^14.1.1",
+    "start-server-and-test": "^2.0.3"
+  }
+}
