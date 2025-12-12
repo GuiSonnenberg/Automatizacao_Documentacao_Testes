@@ -1,93 +1,108 @@
-# 🏦 **Projeto Banco — Sistema de Contas e Transações**
+# 🏦 **Sistema Bancário - Automação e CI/CD**
 
-Este projeto em **Java** simula a lógica de negócio básica de um **sistema bancário**, com foco nas classes `Conta` e `TransacaoService`.  
-O projeto utiliza:
+![CI/CD Pipeline](https://github.com/GuiSonnenberg/Automatizacao_Documentacao_Testes/actions/workflows/pipeline.yml/badge.svg)
 
-- 🧱 **Apache Maven** como gerenciador de build  
-- 🧪 **JUnit 5** para testes unitários  
-- 📊 **JaCoCo** para verificação de cobertura de código  
+Este projeto consiste numa aplicação de sistema bancário com **Backend em Java** e **testes End-to-End (E2E) automatizados no Frontend** utilizando Cypress. O projeto conta com um pipeline de CI/CD configurado via GitHub Actions para garantir a qualidade do código a cada push.
 
 ---
 
-## 🚀 **Requisitos**
+## 🚀 **Tecnologias Utilizadas**
 
-Para executar e testar o projeto, você precisará ter instalado:
-
-- ☕ **JDK (Java Development Kit)** — versão **17** ou superior  
-- 🧱 **Apache Maven** — versão **3.x** ou superior  
-- 💻 **IDE (opcional)** — *Apache NetBeans*, *IntelliJ IDEA* ou *Eclipse*
+- **Backend:** Java 17 (Maven)
+- **Frontend/Testes:** Node.js 20, Cypress
+- **CI/CD:** GitHub Actions
+- **Servidor Local:** http-server
 
 ---
 
-## ⚙️ **Configuração e Execução**
+## 📂 **Estrutura do Projeto**
 
-### 🌀 **1. Clonar o repositório**
+O código-fonte da aplicação encontra-se dentro do diretório `banco/`.
 
-No terminal, navegue até o diretório onde deseja salvar o projeto e execute:
+```text
+/
+├── .github/workflows/   # Configuração do Pipeline (CI/CD)
+├── banco/               # Código Fonte do Projeto
+│   ├── src/             # Código Java
+│   ├── cypress/         # Testes automatizados E2E
+│   ├── pom.xml          # Dependências Maven
+│   └── package.json     # Dependências Node/Cypress
+└── README.md            # Documentação
+
+```
+
+---
+### Como Executar (Backend e Instalação)
+#### 🛠️ **Como Executar Localmente**
+
+Como o projeto está dentro da pasta `banco`, você deve acessá-la antes de rodar qualquer comando.
+
+### Pré-requisitos
+- Java JDK 17
+- Maven
+- Node.js 20+
+  
+---
+
+### 1. Testar o Backend (Java)
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
 cd banco
-```
----
-### 🧩 **2. Compilar o projeto**
-
-Execute o comando Maven para baixar as dependências e compilar o código-fonte e os testes:
-
-```bash
-mvn clean compile
-```
----
-✅ **3. Executar testes e verificar cobertura (JaCoCo)**
-
-O projeto está configurado para:
-
-Executar todos os testes unitários
-
-Gerar o relatório de cobertura de código
-
-Falhar o build se a cobertura for inferior a 75%
-
-Execute o ciclo completo com:
-
-```bash
 mvn clean verify
 ```
----
-### **📈 Visualizar o relatório de cobertura (JaCoCo)**
 
-Após o comando mvn clean verify, o relatório HTML será gerado em:
+---
+
+### 2. Rodar Testes de Frontend (Cypress)
+Primeiro, instale as dependências:
 
 ```bash
-target/site/jacoco/index.html
+cd banco
+npm install
 ```
-🔍 Para visualizar:
 
-1. Navegue até target/site/jacoco/
-
-2. Abra index.html no navegador
 ---
-## 💡 **Execução via IDE (NetBeans)**
 
-🧭 Abrir o projeto
+### Execução Cypress e CI/CD
 
-Vá em File → Open Project
-
-Selecione o arquivo pom.xml
-
-🧪 Executar testes e cobertura
-
-Clique com o botão direito no projeto
-
-Escolha Run Maven → Goals
-
-Digite em Goals verify e clique em OK
-
-📂 Acessar o relatório
-
-Na aba Files, vá até:
+Para abrir o Cypress (modo interativo):
 
 ```bash
-target/site/jacoco/index.html
+npx cypress open
 ```
-e abra no navegador.
+
+---
+
+Para rodar os testes em modo "headless" (igual ao CI):
+
+```bash
+# Necessário subir o servidor primeiro em outro terminal:
+# npx http-server . -p 8080
+
+npx cypress run
+```
+
+---
+
+## 🤖 **Pipeline CI/CD (GitHub Actions)**
+O pipeline é acionado automaticamente em push ou pull_request para as branches main e master. Ele é dividido em dois jobs:
+
+### 1. Backend Check
+Configura Java 17.
+
+Executa mvn clean verify para compilar e rodar testes unitários.
+
+---
+
+### 2. Frontend Check
+(Só roda se o Backend passar)
+
+Configura Node.js.
+
+Instala dependências (npm install).
+
+Sobe um servidor local (http-server).
+
+Executa os testes automatizados do Cypress.
+
+---
